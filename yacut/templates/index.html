@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block content %}
+
+<main>
+  <section class="container my-5 px-4">
+    <h1 class="text-center"><span style="color:red">Ya</span>Cut</h1>
+    <h3 class="text-center my-4">
+      Создайте короткую ссылку автоматически или предложите свой вариант
+    </h3>
+
+    <div class="container">
+      <div class="row my-3">
+        <div class="col-sm">
+        </div>
+        <div class="col-sm">
+          <form method="POST" novalidate>
+            {{ form.csrf_token }}
+            <div>
+              <div>
+                {{ form.original_link(class="form-control form-control-lg py-2 mb-3", id="form-original_link",
+                placeholder=form.original_link.label.text) }}
+                <p>
+                  {% if form.original_link.errors %}
+                  {% for error in form.original_link.errors %}
+                  <span style="color:red">{{ error }}</span>
+                  {% endfor %}
+                  {% endif %}
+                </p>
+              </div>
+              <dif>
+                {{ form.custom_id(class="form-control form-control-lg py-2 mb-3", id="form-custom_id",
+                placeholder=form.custom_id.label.text) }}
+                <p>
+                  {% if form.custom_id.errors %}
+                  {% for error in form.custom_id.errors %}
+                  <span style="color:red">{{ error }}</span>
+                  {% endfor %}
+                  {% endif %}
+                </p>
+              </dif>
+              {{ form.submit(class="btn btn-primary", value="Создать") }}
+            </div>
+          </form>
+        </div>
+        <div class="col-sm"></div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="col-sm">
+        <p class="text-center my-4">
+        <h5 class="text-center">
+          {% with messages = get_flashed_messages() %}
+          {% if messages %}
+          {{ messages[0] }}
+        </h5>
+        <h5 class="text-center">
+          {% if messages[1] %}
+          <a href="{{ url_for('redirect_view', short_url=messages[1], _external=True) }}">
+            {{ url_for('redirect_view', short_url=messages[1], _external=True) }}
+          </a>
+        </h5>
+        {% endif %}
+        {% endif %}
+        {% endwith %}
+        </p>
+      </div>
+    </div>
+
+  </section>
+</main>
+{% endblock %}
