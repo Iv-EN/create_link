@@ -6,7 +6,7 @@ from .models import URLMap
 from .utils import add_url_map, get_urls_for_form
 
 
-@app.route('/', methods=['GET', 'POST',])
+@app.route('/', methods=['GET', 'POST', ])
 def index_view():
     """Главная страница генерации коротких ссылок."""
     form = YacutForm()
