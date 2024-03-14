@@ -3,24 +3,25 @@ import random
 from sqlalchemy.exc import IntegrityError
 
 from . import db
-from .constants import (ALLOWED_CHARS, AUTO_LINK_LENGTH,
-                        SHORT_ALREADY_EXISTS)
+from .constants import (ALLOWED_CHARS, AUTO_LINK_LENGTH, INVALID_NAME,
+                        SHORT_ALREADY_EXISTS, USER_LINK_LENGHT)
 from .models import URLMap
-from .validators import symbols_validation
+from .validators import len_validation, symbols_validation
 
 
 def get_urls_for_form(form):
     """Проверяет данные полученные из формы."""
     original = form.original_link.data
     short = form.custom_id.data
-    try:
-        symbols_validation(short)
-    except Exception as e:
-        return original, short, e
     if not short:
         return original, get_unique_short_id(), None
     if short_url_exist(short):
         return original, short, SHORT_ALREADY_EXISTS
+    try:
+        len_validation(short, max=USER_LINK_LENGHT)
+        symbols_validation(short)
+    except Exception:
+        return original, short, INVALID_NAME
     return original, short, None
 
 
