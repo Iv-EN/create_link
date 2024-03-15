@@ -1,15 +1,17 @@
 import random
 
 from sqlalchemy.exc import IntegrityError
+from typing import Tuple, Union
 
 from . import db
 from .constants import (ALLOWED_CHARS, AUTO_LINK_LENGTH, INVALID_NAME,
                         SHORT_ALREADY_EXISTS, USER_LINK_LENGHT)
+from .form import YacutForm
 from .models import URLMap
 from .validators import len_validation, symbols_validation
 
 
-def get_urls_for_form(form):
+def get_urls_for_form(form: YacutForm) -> tuple[str, str, Union[str, None]]:
     """Проверяет данные полученные из формы."""
     original = form.original_link.data
     short = form.custom_id.data
@@ -35,12 +37,12 @@ def get_unique_short_id() -> str:
     return short_link
 
 
-def short_url_exist(short_url):
+def short_url_exist(short_url: str) -> bool:
     """Проверка существования короткой ссылки в базе данных."""
     return bool(URLMap.query.filter_by(short=short_url).first())
 
 
-def add_url_map(original, short):
+def add_url_map(original: str, short: str) -> bool:
     """Сохраняет данные в БД."""
     url_map = URLMap(
         original=original,
