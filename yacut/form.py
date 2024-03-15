@@ -7,6 +7,7 @@ from .constants import INVALID_ORIGINAL_NAME, NO_REQUIRED_FIELD
 
 class YacutForm(FlaskForm):
     """Форма создания ссылок."""
+
     original_link = URLField(
         'Длинная ссылка',
         validators=[
