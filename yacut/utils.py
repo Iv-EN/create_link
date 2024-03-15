@@ -1,5 +1,6 @@
 import random
 
+from sqlalchemy import exists
 from sqlalchemy.exc import IntegrityError
 from typing import Tuple, Union
 
@@ -40,7 +41,7 @@ def get_unique_short_id() -> str:
 
 def short_url_exist(short_url: str) -> bool:
     """Проверка существования короткой ссылки в базе данных."""
-    return bool(URLMap.query.filter_by(short=short_url).first())
+    return db.session.query(exists().where(URLMap.short == short_url)).scalar()
 
 
 def add_url_map(original: str, short: str) -> bool:
