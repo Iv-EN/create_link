@@ -11,7 +11,7 @@ from .models import URLMap
 from .validators import len_validation, symbols_validation
 
 
-def get_urls_for_form(form: YacutForm) -> tuple[str, str, Union[str, None]]:
+def get_urls_for_form(form: YacutForm) -> Tuple[str, str, Union[str, None]]:
     """Проверяет данные полученные из формы."""
     original = form.original_link.data
     short = form.custom_id.data
@@ -29,11 +29,12 @@ def get_urls_for_form(form: YacutForm) -> tuple[str, str, Union[str, None]]:
 
 def get_unique_short_id() -> str:
     """Генерерует короткую ссылку из случайных символов."""
-    short_link = ''.join(
-        random.sample(ALLOWED_CHARS, AUTO_LINK_LENGTH)
-    )
-    if URLMap.query.filter_by(short=short_link).first():
-        short_link = get_unique_short_id()
+    while True:
+        short_link = ''.join(
+            random.sample(ALLOWED_CHARS, AUTO_LINK_LENGTH)
+        )
+        if not URLMap.query.filter_by(short=short_link).first():
+            break
     return short_link
 
 
