@@ -20,7 +20,11 @@ def create_link():
         raise InvalidAPIUsage(constants.NO_REQUIRED_FIELD)
     short = data.get(constants.API_REQUEST_FIELDS.short)
     if short:
-        len_validation(short, InvalidAPIUsage(constants.INVALID_NAME), max=constants.USER_LINK_LENGHT)
+        len_validation(
+            short,
+            InvalidAPIUsage(constants.INVALID_NAME),
+            max=constants.USER_LINK_LENGHT
+        )
         symbols_validation(short, InvalidAPIUsage(constants.INVALID_NAME))
         if short_url_exist(short):
             raise InvalidAPIUsage(constants.SHORT_ALREADY_EXISTS)

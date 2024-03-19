@@ -1,8 +1,13 @@
-from .constants import ALLOWED_CHARS, INVALID_NAME
+from .constants import (ALLOWED_CHARS, INVALID_NAME, USER_LINK_LENGHT,
+                        USER_LINK_LENGHT_MIN)
 from .error_handlers import InvalidAPIUsage
 
 
-def len_validation(link, exception=InvalidAPIUsage(INVALID_NAME), max=16, min=1):
+def len_validation(
+        link,
+        exception=InvalidAPIUsage(INVALID_NAME),
+        max=USER_LINK_LENGHT, min=USER_LINK_LENGHT_MIN
+):
     """Проверка длины созданной пользователем ссылки."""
     if min <= len(link) <= max:
         return None
